@@ -5,6 +5,8 @@
 # written by Claude AI, 9/Sep/26
 # link: https://claude.ai/chat/ee4af6e9-5d59-4d55-850d-698abc663105
 
+# usage: ./merge_lanes_fastq.sh [experiment_name]
+
 set -euo pipefail
 
 ## Directory staging -------------------
