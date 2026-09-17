@@ -11,12 +11,12 @@ set -euo pipefail
 
 ## Directory staging -------------------
 # set base path for directories
-base_dir="/scratch/alpine/$USER/data_staging/"
+base_dir="/scratch/alpine/$USER/data_staging"
 # cd base_dir || { echo "Error: Could not change to base directory $base_dir"; exit 1; }
   # why CD? maybe temporary files are created here; so using scratch space is better than the home directory.
 
 # directory to convert 
-expt_dir="{$1}"
+expt_dir="$1"
 # check if the directory exists
 if [ ! -d "$base_dir/archive/$expt_dir" ]; then
     echo "Error: Directory $base_dir/archive/$expt_dir does not exist."
