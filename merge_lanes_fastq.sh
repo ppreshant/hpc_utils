@@ -12,7 +12,7 @@ set -euo pipefail
 ## Directory staging -------------------
 # set base path for directories
 base_dir="/scratch/alpine/$USER/data_staging/"
-cd base_dir || { echo "Error: Could not change to base directory $base_dir"; exit 1; }
+# cd base_dir || { echo "Error: Could not change to base directory $base_dir"; exit 1; }
   # why CD? maybe temporary files are created here; so using scratch space is better than the home directory.
 
 # directory to convert 
