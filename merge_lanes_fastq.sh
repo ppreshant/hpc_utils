@@ -10,15 +10,25 @@ set -euo pipefail
 ## Directory staging -------------------
 # set base path for directories
 base_dir="/scratch/alpine/$USER/data_staging/"
+cd base_dir || { echo "Error: Could not change to base directory $base_dir"; exit 1; }
+  # why CD? maybe temporary files are created here; so using scratch space is better than the home directory.
 
 # directory to convert 
 expt_dir="{$1}"
+# check if the directory exists
+if [ ! -d "$base_dir/archive/$expt_dir" ]; then
+    echo "Error: Directory $base_dir/archive/$expt_dir does not exist."
+    exit 1
+fi
+
 
 # input and output dirs
 indir="$base_dir/archive/$expt_dir"          # directory with raw files
 outdir="$base_dir/$expt_dir"  # where merged files will go
 mkdir -p "$outdir"
 
+
+## Actual merging ----------------------------------------
 # Get unique sample names (text before first underscore)
 samples=$(ls "$indir"/*_L*_[12].fq.gz 2>/dev/null | xargs -n1 basename | sed -E 's/_.*//' | sort -u)
 
