@@ -7,8 +7,16 @@
 
 set -euo pipefail
 
-indir="./compressed_files"          # directory with raw files
-outdir="./merged"  # where merged files will go
+## Directory staging -------------------
+# set base path for directories
+base_dir="/scratch/alpine/$USER/data_staging/"
+
+# directory to convert 
+expt_dir="{$1}"
+
+# input and output dirs
+indir="$base_dir/archive/$expt_dir"          # directory with raw files
+outdir="$base_dir/$expt_dir"  # where merged files will go
 mkdir -p "$outdir"
 
 # Get unique sample names (text before first underscore)
