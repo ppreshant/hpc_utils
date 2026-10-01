@@ -18,19 +18,20 @@ eval "$(ssh-agent -s)"
 
 ## Aliases ---------------------------------------
 # Pseudo aliases to my directories (for navigation)
-projects='/projects/c838573989@colostate.edu'
-scratch='/scratch/alpine/c838573989@colostate.edu'
+projects='/projects/$USER'
+scratch='/scratch/alpine/$USER'
 
 # Aliases to my directories (for quick nagivation)
-alias home='cd /home/c838573989@colostate.edu' # use `~`
-alias projects='cd /projects/c838573989@colostate.edu'
-alias scratch='cd /scratch/alpine/c838573989@colostate.edu'
+alias home='cd /home/$USER' # use `~`
+alias projects='cd /projects/$USER'
+alias scratch='cd /scratch/alpine/$USER'
 
+### Extra aliases, rarely used ---------------------------------------
 # Aliases for moving to these directories 
 # Usage: mvhome <from_dir>
-alias mvhome='mv -t /home/c838573989@colostate.edu'
-alias mvprojects='mv -t /projects/c838573989@colostate.edu'
-alias mvscratch='mv -t /scratch/alpine/c838573989@colostate.edu'
+alias mvhome='mv -t /home/$USER'
+alias mvprojects='mv -t /projects/$USER'
+alias mvscratch='mv -t /scratch/alpine/$USER'
 
 # Shortcut for a quick interactive session (accessing computing node)
 # Use: for dry run of snakemake/nextflow pipelines. For setting up a long running proc, increase time
@@ -40,3 +41,8 @@ alias node_dayrun='sinteractive --time=24:00:00 --ntasks=1 --cpus-per-task=1 --m
 # start the ssh agent and add key
 alias agentssh='eval "$(ssh-agent -s)"'
 
+### Dimsum related ---------------------------------------
+# Dimsum related variables (use to quickly cd between dirs)
+repo_dim="/home/$USER/deepmut_variant_analysis/DiMSum"
+results_dim="/scratch/alpine/$USER/deepmut_variant_analysis/dimsum_results"
+data_dim="/scratch/alpine/$USER/data_staging"
