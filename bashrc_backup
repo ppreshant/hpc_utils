@@ -1,0 +1,42 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific aliases and functions
+
+# Case insensitive completion
+bind 'set completion-ignore-case on'
+
+# load rclone bash completions
+source ~/utils/rclone_bash_completion.sh
+
+# Start the ssh agent
+eval "$(ssh-agent -s)"
+
+## Aliases ---------------------------------------
+# Pseudo aliases to my directories (for navigation)
+projects='/projects/c838573989@colostate.edu'
+scratch='/scratch/alpine/c838573989@colostate.edu'
+
+# Aliases to my directories (for quick nagivation)
+alias home='cd /home/c838573989@colostate.edu' # use `~`
+alias projects='cd /projects/c838573989@colostate.edu'
+alias scratch='cd /scratch/alpine/c838573989@colostate.edu'
+
+# Aliases for moving to these directories 
+# Usage: mvhome <from_dir>
+alias mvhome='mv -t /home/c838573989@colostate.edu'
+alias mvprojects='mv -t /projects/c838573989@colostate.edu'
+alias mvscratch='mv -t /scratch/alpine/c838573989@colostate.edu'
+
+# Shortcut for a quick interactive session (accessing computing node)
+# Use: for dry run of snakemake/nextflow pipelines. For setting up a long running proc, increase time
+alias node_interactive='sinteractive --time=01:00:00 --ntasks=1 --cpus-per-task=1 --mem=8G --qos=cpu-normal --partition=acpu'
+alias node_dayrun='sinteractive --time=24:00:00 --ntasks=1 --cpus-per-task=1 --mem=8G --qos=cpu-normal --partition=acpu'
+
+# start the ssh agent and add key
+alias agentssh='eval "$(ssh-agent -s)"'
+
