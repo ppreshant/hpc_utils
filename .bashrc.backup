@@ -18,8 +18,8 @@ eval "$(ssh-agent -s)"
 
 ## Aliases ---------------------------------------
 # Pseudo aliases to my directories (for navigation)
-projects='/projects/$USER'
-scratch='/scratch/alpine/$USER'
+projects="/projects/$USER"
+scratch="/scratch/alpine/$USER"
 
 # Aliases to my directories (for quick nagivation)
 alias home='cd /home/$USER' # use `~`
@@ -43,6 +43,6 @@ alias agentssh='eval "$(ssh-agent -s)"'
 
 ### Dimsum related ---------------------------------------
 # Dimsum related variables (use to quickly cd between dirs)
-repo_dim="/home/$USER/deepmut_variant_analysis/DiMSum"
-results_dim="/scratch/alpine/$USER/deepmut_variant_analysis/dimsum_results"
-data_dim="/scratch/alpine/$USER/data_staging"
+alias repo_dim="cd /home/$USER/deepmut_variant_analysis/DiMSum"
+alias results_dim="cd /scratch/alpine/$USER/deepmut_variant_analysis/dimsum_results"
+alias data_dim="cd /scratch/alpine/$USER/data_staging"
