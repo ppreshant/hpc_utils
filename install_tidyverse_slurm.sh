@@ -12,8 +12,6 @@
 
 
 module load miniforge
-mamba activate dimsum
-
-mamba install -y r-tidyverse
+mamba create -n tidyverse -y r-base r-tidyverse
 
 mamba list r-tidyverse
