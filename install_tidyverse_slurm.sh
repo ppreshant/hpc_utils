@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #SBATCH --nodes=1
-#SBATCH --job-name=post-process-dimsum
-#SBATCH --output=logs_slurm/post_%j.out
-#SBATCH --error=logs_slurm/post_%j.err
+#SBATCH --job-name=install-tidyverse
+#SBATCH --output=logs_slurm/%j.out
+#SBATCH --error=logs_slurm/%j.err
 #SBATCH --time=0:20:00
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=3G
