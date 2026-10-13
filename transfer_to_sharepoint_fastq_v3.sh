@@ -22,16 +22,14 @@ module load rclone
 
 set -euo pipefail
 
-REMOTE="onedrive_csu:Databases/Novogene NGS sequencing/LOKYA/TheoAptz/lane_files_fastq_gz/"
-LOCAL="./theoAptz_lokya/"
-
-mkdir -p "$LOCAL"
+REMOTE="onedrive_csu:Databases/Novogene NGS sequencing/LOKYA/DELLA design04 Enriched lib 091426/"
+LOCAL="./della_enriched_library_lokya"
 
 MT_FLAGS="--multi-thread-streams=4 --multi-thread-cutoff=200M"
 
 
 ##############################################
-# Step 0: Check the directories being transferred
+# Step 0: Check the destination directory contents
 ##############################################
 echo "== list of directories =="
 rclone lsd "$REMOTE"
@@ -42,4 +40,6 @@ rclone lsd "$REMOTE"
 # (preserves the library subfolder structure automatically)
 ##############################################
 echo "== Transferring .fq.gz files =="
-rclone copy "$LOCAL" "$REMOTE" -P $MT_FLAGS
+rclone copy "$LOCAL" "$REMOTE" --include "*.fq.gz" -P $MT_FLAGS
+
+echo "transfer complete"
