@@ -43,13 +43,14 @@ mkdir -p "$outdir"
 
 ## Actual merging ----------------------------------------
 # Get unique sample names (text before first underscore)
-samples=$(ls "$indir"/*_L*_[12].fq.gz 2>/dev/null | xargs -n1 basename | sed -E 's/_.*//' | sort -u)
+samples=$(find "$indir" -type f -name '*_L*_[12].fq.gz' -exec basename {} \; | sed -E 's/_.*//' | sort -u) \
+    && { echo "No input files found in $indir"; exit 1; }
 
 for sample in $samples; do
     for read_num in 1 2; do
         outfile="$outdir/${sample}_R${read_num}_001.fastq.gz"
         # collect all lanes for this sample+read, sorted for consistent lane order
-        files=$(ls "$indir/${sample}"_*_L*_${read_num}.fq.gz 2>/dev/null | sort)
+        files=$(find "$indir" -type f -name "${sample}_*_L*_${read_num}.fq.gz" | sort)
 
         if [ -z "$files" ]; then
             echo "WARNING: no files found for sample=$sample read=$read_num"
