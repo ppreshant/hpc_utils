@@ -42,26 +42,32 @@ mkdir -p "$outdir"
 
 
 ## Actual merging ----------------------------------------
-# Get unique sample names (text before first underscore)
-samples=$(find "$indir" -type f -name '*_L*_[12].fq.gz' -exec basename {} \; | sed -E 's/_.*//' | sort -u) \
-    && { echo "No input files found in $indir"; exit 1; }
+# Sample name = everything before the Novogene library ID (_CKDL...)
+samples=$(find "$indir" -type f -name '*_CKDL*_L*_[12].fq.gz' -exec basename {} \; \
+    | sed -E 's/_CKDL.*//' | sort -u)
+
+if [ -z "$samples" ]; then
+    echo "Error: No input files found in $indir"
+    exit 1
+fi
 
 for sample in $samples; do
     for read_num in 1 2; do
         outfile="$outdir/${sample}_R${read_num}_001.fastq.gz"
-        # collect all lanes for this sample+read, sorted for consistent lane order
-        files=$(find "$indir" -type f -name "${sample}_*_L*_${read_num}.fq.gz" | sort)
 
-        if [ -z "$files" ]; then
+        # collect all lanes/flowcells for this sample+read
+        mapfile -t files < <(find "$indir" -type f -name "${sample}_CKDL*_L*_${read_num}.fq.gz" | sort)
+
+        if [ ${#files[@]} -eq 0 ]; then
             echo "WARNING: no files found for sample=$sample read=$read_num"
             continue
         fi
 
         echo "Merging into $outfile:"
-        printf '  %s\n' $files
+        printf '  %s\n' "${files[@]}"
 
-        # already gzipped, so raw concat of the .gz files is valid gzip too
-        cat $files > "$outfile"
+        # already gzipped, so raw concat of .gz files is valid gzip
+        cat "${files[@]}" > "$outfile"
     done
 done
 
