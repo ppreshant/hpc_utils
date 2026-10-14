@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --nodes=1
-#SBATCH --job-name=to-sharepoint-fastq
+#SBATCH --job-name=to-sharepoint
 #SBATCH --output=logs_slurm/%j.out
 #SBATCH --error=logs_slurm/%j.err
 #SBATCH --time=1:00:00          
@@ -22,7 +22,7 @@ module load rclone
 
 set -euo pipefail
 
-REMOTE="onedrive_csu:Databases/Novogene NGS sequencing/LOKYA/DELLA design04 Enriched lib 091426/"
+REMOTE="onedrive_csu:Databases/Novogene NGS sequencing/LOKYA/DELLA design04 Enriched lib 091426/data/"
 LOCAL="./della_enriched_library_lokya"
 
 MT_FLAGS="--multi-thread-streams=4 --multi-thread-cutoff=200M"
@@ -40,6 +40,6 @@ rclone lsd "$REMOTE"
 # (preserves the library subfolder structure automatically)
 ##############################################
 echo "== Transferring .fq.gz files =="
-rclone copy "$LOCAL" "$REMOTE" --exclude "*.fq.gz" -P $MT_FLAGS
+rclone copy "$LOCAL" "$REMOTE" -P $MT_FLAGS
 
 echo "transfer complete at $(date '+%Y-%m-%d %H:%M:%S %Z')"
