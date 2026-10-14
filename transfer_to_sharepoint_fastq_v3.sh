@@ -42,4 +42,4 @@ rclone lsd "$REMOTE"
 echo "== Transferring .fq.gz files =="
 rclone copy "$LOCAL" "$REMOTE" --include "*.fq.gz" -P $MT_FLAGS
 
-echo "transfer complete"
+echo "transfer complete at $(date '+%Y-%m-%d %H:%M:%S %Z')"

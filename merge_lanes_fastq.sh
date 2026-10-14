@@ -1,4 +1,15 @@
 #!/usr/bin/env bash
+
+#SBATCH --nodes=1
+#SBATCH --job-name=merge-lanes-fastq
+#SBATCH --output=logs_slurm/%j.out
+#SBATCH --error=logs_slurm/%j.err
+#SBATCH --time=1:00:00
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=6G
+#SBATCH --qos=cpu-normal
+#SBATCH -p acpu
+
 # Merge Novogene lane-split fastq.gz files into per-sample R1/R2_001.fastq.gz
 # Assumes filenames like: SAMPLE_CKDLxxxx-1A_FLOWCELL_L2_1.fq.gz
 # Run from inside the directory containing all the raw fastq.gz files.
