@@ -71,4 +71,12 @@ for sample in $samples; do
     done
 done
 
+# quick check of directory size of source and destination
+echo "Source directory size:"
+du -sh "$indir"
+echo "\nDestination directory size:"
+du -sh "$outdir"
+
+
+
 echo "Done. Merged files in $outdir/"
