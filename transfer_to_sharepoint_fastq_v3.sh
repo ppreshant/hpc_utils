@@ -1,11 +1,11 @@
 #!/bin/bash
 
 #SBATCH --nodes=1
-#SBATCH --job-name=novogene_dl
-#SBATCH --output=novogene_dl_%j.out
-#SBATCH --error=novogene_dl_%j.err
-#SBATCH --time=2:00:00          
-#SBATCH --cpus-per-task=8
+#SBATCH --job-name=to-sharepoint-fastq
+#SBATCH --output=logs_slurm/%j.out
+#SBATCH --error=logs_slurm/%j.err
+#SBATCH --time=1:00:00          
+#SBATCH --cpus-per-task=3
 #SBATCH --mem=6G
 #SBATCH --qos=cpu-normal
 #SBATCH -p acpu
@@ -40,6 +40,6 @@ rclone lsd "$REMOTE"
 # (preserves the library subfolder structure automatically)
 ##############################################
 echo "== Transferring .fq.gz files =="
-rclone copy "$LOCAL" "$REMOTE" --include "*.fq.gz" -P $MT_FLAGS
+rclone copy "$LOCAL" "$REMOTE" --exclude "*.fq.gz" -P $MT_FLAGS
 
 echo "transfer complete at $(date '+%Y-%m-%d %H:%M:%S %Z')"
