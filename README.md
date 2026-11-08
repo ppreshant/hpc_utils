@@ -20,3 +20,18 @@ This file will be sourced automatically when you log in to the HPC environment n
 - `merge_lanes_fastq.sh`: A script to merge FASTQ files from multiple lanes
 - sharepoint transfer scripts: Scripts to transfer files between HPC and SharePoint. `transfer_to_sharepoint_fastq_v3.sh` and `sharepoint_to_local_transfer.sh` are the main scripts for transferring files to and from SharePoint. These scripts use `rclone` to transfer files and can be used to transfer large files efficiently.
 
+## General linux utils
+Contains other useful aliases and functions in the `general_linux_utils/.bash_aliases
+
+To activate move these aliases to home `~` and add this line in your `~/.bashrc` to source them on each login 
+```sh
+# Load bash aliases
+if [ -e $HOME/.bash_aliases ]; then
+    source $HOME/.bash_aliases
+fi
+```
+
+### To check conflicted files
+- alias ~ `find_conflicts` to find files with `conflict` in the name
+- function ~ ` diffconflict <file_no extension> <ext(no dot); if not default .json>`
+- if the conflicted file should be made current, use the script `flip_conflicted_to_current.sh`
