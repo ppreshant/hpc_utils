@@ -22,7 +22,7 @@ module load rclone
 set -euo pipefail
 
 # --------- change these directories as needed ---------------------------------
-REMOTE="onedrive_csu:Databases/Novogene NGS sequencing/Madison/4NCMLibrary_Novogene"
+REMOTE="onedrive_csu:Databases/Amplicon-EZ NGS Data/Madison/261111_ExonLibrary/00_fastq"
 LOCAL="./stage" # stage data here before simplifying directories
 FINAL="./clean"
 # ------------------------------------------------------------------------------
@@ -44,56 +44,6 @@ rclone lsd "$REMOTE"
 # (preserves the library subfolder structure automatically)
 ##############################################
 echo "== Transferring .fq.gz files =="
-rclone copy "$REMOTE" "$LOCAL" --include "*.fq.gz" -P $MT_FLAGS
+rclone copy "$REMOTE" "$LOCAL" --include "*.fastq.gz" -P $MT_FLAGS
 
-##############################################
-# Step 2: grab MD5 manifests from each library folder
-##############################################
-echo "== Transferring MD5 manifests =="
-rclone copy "$REMOTE" "$LOCAL" --include "*.txt" -P
 
-##############################################
-# Step 3: verify checksums, but only for .fq.gz entries.
-# The manifests only ever covered the originally-uploaded compressed files;
-# raw .fq copies extracted separately by your collaborator have no valid
-# reference here, so we don't check those.
-##############################################
-echo "== Verifying .fq.gz checksums =="
-find "$LOCAL" -iname "*.txt" | while read -r md5file; do
-    dir=$(dirname "$md5file")
-    echo "  checking $dir"
-    while read -r expected fname; do
-        [[ "$fname" == *.fq.gz ]] || continue
-        target="$dir/$fname"
-        if [[ -f "$target" ]]; then
-            actual=$(md5sum "$target" | awk '{print $1}')
-            if [[ "$actual" == "$expected" ]]; then
-                echo "    [ok]   $fname"
-            else
-                echo "    [FAIL] $fname  expected=$expected got=$actual"
-            fi
-        fi
-    done < "$md5file"
-done
-
-##############################################
-# Step 4: bulk-compress raw .fq files already sitting locally
-##############################################
-# echo "== Compressing raw .fq files with pigz =="
-# find "$LOCAL" -type f -name "*.fq" | while read -r f; do
-#    echo "  compressing $f"
-#    pigz -p "${SLURM_CPUS_PER_TASK:-8}" -f "$f"
-# done
-
-##############################################
-# Step 5: flatten the directory structure - pull compressed files out of their internal dirs
-# (e.g. LIB/foo/foo_R1.fq.gz -> LIB2/foo_R1.fq.gz) ; clean empty dirs
-##############################################
-mv "$LOCAL"/*/*.fq.gz $FINAL/
-
-find "$LOCAL" -mindepth 1 -type d -empty -delete
-
-echo "moved files into flatted dir:"
-echo $FINAL
-echo ""
-echo "Done. Review [FAIL] lines above for anything needing re-download."
